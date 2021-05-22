@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <style>
+			#navTitle{
+				color:white;
+				font-size:24px;
+			}
+
+			#chatbox {
+				margin-left: auto;
+				margin-right: auto;
+				width: 80%;
+				margin-top: 60px;
+			}
+
+			#userInput {
+				margin-left: auto;
+				margin-right: auto;
+				width: 80%;
+				margin-top: 60px;
+			}
+
+
+			#buttonInput {
+				padding: 3px;
+				font-family: monospace;
+				font-size: 17px;
+			}
+
+			.userText {
+				color: black;
+				font-family: monospace;
+				font-size: 17px;
+				text-align: right;
+				line-height: 30px;
+			}
+
+			.userText span {
+				border-radius:5px;
+				background-color: #dbffec;
+				padding: 10px;
+				border-radius: 2px;
+			}
+
+			.botText {
+				color: black;
+				font-family: monospace;
+				font-size: 17px;
+				text-align: left;
+				line-height: 30px;
+			}
+
+			.botText span {
+				border-radius:5px;
+				margin-top:5px;
+				background-color: #ffdedb;
+				padding: 10px;
+				border-radius: 2px;
+			}
+
+	</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <style type="text/css">
+        html, body {
+            font: 16pt arial;
+        }
+
+        #viz {
+            height: 85vh;
+        }
+
+    </style>
+    <script src="https://cdn.neo4jlabs.com/neovis.js/v1.4.0/neovis.js"></script>
+
+  </head>
+
+  {% extends "bootstrap/base.html" %}
+{% block content %}
+  <body onload="draw()">
+
+
+
+
+    <h1 style="padding-top:30px;" class="text-center">Flora chatbot</h1>
+	<h4  class="text-center">by Hira Muazzam</h4>
+
+      <div class="col-md-6">
+          <div id="chatbox" >
+             <p class="botText"><span>Hi!  I am Flora.</span></p>
+          </div>
+          <div id="userInput">
+             <input id="textInput" class="form-control" type="text" placeholder="Message for Flora">
+
+          </div>
+    </div>
+      <div  class="col-md-6">
+          <h2 class="text-center"> Brain View</h2>
+           <div id="viz"  ></div>
+      </div>
+
+
+
+
+
+</body>
+{% endblock %}
+
+	{% block scripts %}
+  <script type="text/javascript">
+
+		var viz;
+
+		function draw() {
+			var config = {
+				container_id: "viz",
+				server_url: "bolt://localhost:7687",
+				server_user: "neo4j",
+				server_password: "123",
+				labels: {
+                    "Person": {
+                     "caption": "name"
+                     },
+				},
+				relationships: {
+
+				},
+				initial_cypher: "match((n)-[r]->(m)) return n,r,m"
+			};
+
+			viz = new NeoVis.default(config);
+			console.log(viz);
+			viz.render();
+			console.log(viz);
+			console.log("working this much");
+		}
+
+
+         async function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + '</span></p>';
+            $("#chatbox").append(botHtml);
+            document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          }).done(function(data){ draw();});
+
+        }
+
+        $("#textInput").keypress(async function(e) {
+            if(e.which == 13) {
+                  getBotResponse();
+
+            }
+        });
+
+      </script>
+{{super()}}
+{% endblock %}

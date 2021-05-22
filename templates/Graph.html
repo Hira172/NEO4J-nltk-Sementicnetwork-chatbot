@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Graph using neovis</title>
+    <style type="text/css">
+        html, body {
+            font: 16pt arial;
+        }
+
+        #viz {
+            height: 85vh;
+        }
+
+    </style>
+    <script src="https://cdn.neo4jlabs.com/neovis.js/v1.4.0/neovis.js"></script>
+    <script type="text/javascript">
+
+		var viz;
+
+		function draw() {
+			var config = {
+				container_id: "viz",
+				server_url: "bolt://localhost:7687",
+				server_user: "neo4j",
+				server_password: "123",
+				labels: {
+                    "Person": {
+                     "caption": "name"
+                     },
+				},
+				relationships: {
+
+				},
+				initial_cypher: "match((n)-[r]->(m)) return n,r,m"
+			};
+
+			viz = new NeoVis.default(config);
+			console.log(viz);
+			viz.render();
+			console.log(viz);
+			console.log("working this much");
+		}
+    </script>
+</head>
+<body onload="draw()">
+  {% extends "bootstrap/base.html" %}
+
+
+
+{% block navbar %}
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Navbar</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="navTitle" class="navbar-brand" href="/">Flora Chatbot</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+					<li class="text-center"><a href="/">Chat</a></li>
+                    <li class="text-center"><a href="/graphPage">Graph </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+<div id="viz"></div>
+{% endblock %}
+</body>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+
+   <category>
+    <pattern>Hi</pattern>
+    <template> <think>
+    <set name = "botname"> Flora </set>
+    <set name = "add">0</set>
+    </think>
+      Can you help me learn more about people?
+    </template>
+  </category>
+
+
+
+   <category>
+      <pattern>WHO ARE YOU</pattern>
+
+      <template>
+          <think><set name = "add">0</set></think>
+          I am <get name = "botname"></get>. I am a learning bot.
+          Can you help me learn more about people?
+      </template>
+   </category>
+   <category>
+    <pattern>WHAT IS YOUR NAME</pattern>
+    <template>
+      <srai>WHO ARE YOU<star/></srai>
+    </template>
+  </category>
+   <category>
+    <pattern> YOUR NAME</pattern>
+    <template>
+      <srai>WHO ARE YOU<star/></srai>
+    </template>
+  </category>
+  <category>
+    <pattern>WHAT IS YOUR PURPOSE</pattern>
+    <template>
+      <srai>WHO ARE YOU<star/></srai>
+    </template>
+  </category>
+
+  <category>
+      <pattern>YES</pattern>
+
+      <THAT>CAN YOU HELP ME LEARN MORE ABOUT PEOPLE</THAT>
+      <template>
+       <think><set name = "add">1</set></think>Aww thanks!😃 Tell me
+      <think><set name = "topic">PEOPLE</set></think>
+      </template>
+   </category>
+
+  <category>
+    <pattern>OK</pattern>
+    <template>
+      <srai>YES<star/></srai>
+    </template>
+  </category>
+
+
+  <category>
+      <pattern>NO</pattern>
+      <think><set name = "add">0</set></think>
+      <THAT>CAN YOU HELP ME LEARN MORE ABOUT PEOPLE</THAT>
+      <template>Aww!😞 Nevermind... Then play 3 questions with me!Think of a person and tell me when you are done.
+      </template>
+   </category>
+
+
+<topic name = "PEOPLE">
+
+
+   <category>
+    <pattern>*</pattern>
+    <template><think><set name = "add">1</set></think><random>
+        <li>Hmm</li>
+        <li>Ahan</li>
+        <li>I didn't knew that</li>
+        <li>You know a lot of things</li>
+        <li>Tell me more!</li>
+        <li>Got it</li>
+        <li>You know, you can also test my knowledge by asking  questions!</li>
+    </random></template>
+  </category>
+</topic>
+
+
+
+
+    <category>
+    <pattern>*</pattern>
+    <template>I am sorry I don't understand.</template>
+  </category>
+
+</aiml>
+
+
+  
